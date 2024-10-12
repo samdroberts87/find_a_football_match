@@ -2,10 +2,11 @@ import pytest
 import requests
 from main import postcode_validation
 from unittest.mock import patch
+import json
 
-# Example mock data response from the API for a valid bradford city AFC postcode
-# from postcodes.io
-mock_response_data = {
+# Example mock data response from the API for a valid postcode (Bradford city AFC)
+mock_response_json = '''
+{
     "status": 200,
     "result": {
         "postcode": "BD8 7DY",
@@ -27,10 +28,10 @@ mock_response_data = {
         "parliamentary_constituency_2024": "Bradford West",
         "admin_district": "Bradford",
         "parish": "Bradford, unparished area",
-        "admin_county": None,
+        "admin_county": null,
         "date_of_introduction": "198001",
         "admin_ward": "Manningham",
-        "ced": None,
+        "ced": null,
         "ccg": "NHS West Yorkshire",
         "nuts": "Bradford",
         "pfa": "West Yorkshire",
@@ -52,17 +53,21 @@ mock_response_data = {
         }
     }
 }
+'''
 
 # Test for postcode validation
 def test_postcode_validation():
+    # Load mock data using json
+    mock_response_data = json.loads(mock_response_json)
+    
     # Patch 'requests.get' to mock API response
     with patch('requests.get') as mock_get:
         # Mock the response status and json data
         mock_get.return_value.status_code = 200
         mock_get.return_value.json.return_value = mock_response_data
 
-        # Call your function to validate the postcode (to be implemented)
-        result = postcode_validation("BD8 7DY")  # Placeholder function
+        # Call your function to validate the postcode
+        result = postcode_validation("BD8 7DY")
 
         # Check if the function returns True for a valid postcode
         assert result == True
