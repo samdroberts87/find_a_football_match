@@ -54,6 +54,7 @@ mock_response_json = """
 }
 """
 
+
 ##### POSTCODE TESTS ######
 # Test for postcode validation
 def test_postcode_validation():
@@ -116,6 +117,7 @@ def test_convert_date_format_multiple_invalid():
     with patch("builtins.input", side_effect=["abcd", "1234", "12/10/2024"]):
         result = convert_date_format()
         assert result == "2024-10-12"  # Only the last valid date should be returned
+
 
 ##### TESTS FOR DISTANCE #####
 # Test for valid numeric input

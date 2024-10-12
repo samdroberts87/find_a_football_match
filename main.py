@@ -17,12 +17,11 @@ def main():
     except EOFError:  # Handle Ctrl+D (End of Input)
         print("\nInput interrupted. Exiting...")
     date_of_match = convert_date_format()
-    time.sleep(.05)
+    time.sleep(0.05)
     print(f"Your chosen date is: {date_of_match}")
     distance = get_travel_miles()
-    time.sleep(.05)
+    time.sleep(0.05)
     print(f"You are willing to travel: {distance}")
-
 
 
 def postcode_validation(postcode):
@@ -64,6 +63,7 @@ def convert_date_format():
         except EOFError:  # Handle Ctrl+D (End of Input)
             print("\nInput interrupted. Exiting...")
 
+
 def get_travel_miles():
     while True:
         time.sleep(1)
@@ -78,7 +78,6 @@ def get_travel_miles():
             print("Invalid input. Please enter a number.")
         except EOFError:  # Handle Ctrl+D (End of Input)
             print("\nInput interrupted. Exiting...")
-
 
 
 if __name__ == "__main__":
