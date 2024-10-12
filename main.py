@@ -18,8 +18,6 @@ def main():
         print("\nInput interrupted. Exiting...")
     date_of_match = convert_date_format()
     print(date_of_match)
-    
-    
 
 
 def postcode_validation(postcode):
@@ -35,6 +33,7 @@ def postcode_validation(postcode):
     except requests.RequestException as e:
         print(f"Error occurred: {e}")
         return False  # Return False if there's an error during the request
+
 
 def convert_date_format():
 
@@ -54,6 +53,7 @@ def convert_date_format():
                 print("date format incorrect")
         except ValueError:
             continue
+
 
 if __name__ == "__main__":
     main()

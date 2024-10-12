@@ -54,6 +54,7 @@ mock_response_json = """
 }
 """
 
+
 # Test for postcode validation
 def test_postcode_validation():
     # Load mock data using json
@@ -92,17 +93,22 @@ def test_api_server_error():
         result = postcode_validation("BD8 7DY")
         assert result == False
 
+
 # Test for valid date format conversion
 def test_convert_date_format_valid():
     with patch("builtins.input", side_effect=["12/10/2024"]):
         result = convert_date_format()
         assert result == "2024-10-12"  # Check if the date is correctly formatted
 
+
 # Test for invalid date format and then valid
 def test_convert_date_format_invalid_then_valid():
-    with patch("builtins.input", side_effect=["12/34/2024", "32/10/2024", "15/10/2024"]):
+    with patch(
+        "builtins.input", side_effect=["12/34/2024", "32/10/2024", "15/10/2024"]
+    ):
         result = convert_date_format()
         assert result == "2024-10-15"  # The final valid input should be accepted
+
 
 # Test invalid input multiple times
 def test_convert_date_format_multiple_invalid():
@@ -110,11 +116,13 @@ def test_convert_date_format_multiple_invalid():
         result = convert_date_format()
         assert result == "2024-10-12"  # Only the last valid date should be returned
 
+
 # Test for valid numeric input
 def test_get_travel_miles_valid():
     with patch("builtins.input", return_value="25.5"):
         result = get_travel_miles()
         assert result == 25.5  # Check that the function returns the correct float value
+
 
 # Test for valid integer input
 def test_get_travel_miles_valid_integer():
@@ -122,11 +130,13 @@ def test_get_travel_miles_valid_integer():
         result = get_travel_miles()
         assert result == 10.0  # Check that the function returns 10.0 as a float
 
+
 # Test for invalid input (string)
 def test_get_travel_miles_invalid_string():
     with patch("builtins.input", side_effect=["abc", "25"]):
         result = get_travel_miles()
         assert result == 25.0  # The valid input should be accepted after invalid ones
+
 
 # Test for invalid input (special characters)
 def test_get_travel_miles_invalid_special_characters():
@@ -134,11 +144,13 @@ def test_get_travel_miles_invalid_special_characters():
         result = get_travel_miles()
         assert result == 10.5  # Check that valid float is returned
 
+
 # Test for negative input
 def test_get_travel_miles_negative():
     with patch("builtins.input", side_effect=["-5", "10"]):
         result = get_travel_miles()
         assert result == 10.0  # The valid input should be accepted after negative input
+
 
 # Test for zero input
 def test_get_travel_miles_zero():
