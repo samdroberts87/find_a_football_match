@@ -1,5 +1,5 @@
 import pytest
-from main import postcode_validation, convert_date_format
+from main import postcode_validation, convert_date_format, get_travel_miles
 from unittest.mock import patch, MagicMock
 import json
 
@@ -109,3 +109,39 @@ def test_convert_date_format_multiple_invalid():
     with patch("builtins.input", side_effect=["abcd", "1234", "12/10/2024"]):
         result = convert_date_format()
         assert result == "2024-10-12"  # Only the last valid date should be returned
+
+# Test for valid numeric input
+def test_get_travel_miles_valid():
+    with patch("builtins.input", return_value="25.5"):
+        result = get_travel_miles()
+        assert result == 25.5  # Check that the function returns the correct float value
+
+# Test for valid integer input
+def test_get_travel_miles_valid_integer():
+    with patch("builtins.input", return_value="10"):
+        result = get_travel_miles()
+        assert result == 10.0  # Check that the function returns 10.0 as a float
+
+# Test for invalid input (string)
+def test_get_travel_miles_invalid_string():
+    with patch("builtins.input", side_effect=["abc", "25"]):
+        result = get_travel_miles()
+        assert result == 25.0  # The valid input should be accepted after invalid ones
+
+# Test for invalid input (special characters)
+def test_get_travel_miles_invalid_special_characters():
+    with patch("builtins.input", side_effect=["$", "10.5"]):
+        result = get_travel_miles()
+        assert result == 10.5  # Check that valid float is returned
+
+# Test for negative input
+def test_get_travel_miles_negative():
+    with patch("builtins.input", side_effect=["-5", "10"]):
+        result = get_travel_miles()
+        assert result == 10.0  # The valid input should be accepted after negative input
+
+# Test for zero input
+def test_get_travel_miles_zero():
+    with patch("builtins.input", return_value="0"):
+        result = get_travel_miles()
+        assert result == 0.0  # Check that zero is accepted and returned correctly
