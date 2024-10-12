@@ -1,5 +1,6 @@
 import pytest
 import requests
+from main import postcode_validation
 from unittest.mock import patch
 
 # Example mock data response from the API for a valid bradford city AFC postcode
@@ -61,7 +62,7 @@ def test_postcode_validation():
         mock_get.return_value.json.return_value = mock_response_data
 
         # Call your function to validate the postcode (to be implemented)
-        result = validate_postcode("BD8 7DY")  # Placeholder function
+        result = postcode_validation("BD8 7DY")  # Placeholder function
 
         # Check if the function returns True for a valid postcode
         assert result == True
@@ -72,12 +73,12 @@ def test_invalid_postcode():
         mock_get.return_value.status_code = 404
         mock_get.return_value.json.return_value = {"status": 404, "error": "Postcode not found"}
 
-        result = validate_postcode("INVALIDCODE")
+        result = postcode_validation("INVALIDCODE")
         assert result == False
 
 def test_api_server_error():
     # Mock response for a server error (500)
     with patch('requests.get') as mock_get:
         mock_get.return_value.status_code = 500
-        result = validate_postcode("BD8 7DY")
+        result = postcode_validation("BD8 7DY")
         assert result == False
