@@ -3,9 +3,9 @@
 
 ### The first iteration of this application will do the following
 1. Prompt user for input for the following things
-- Their postcode
-- Date on which they wish to see a game
-- How far they are willing to travel
+- Their postcode (DONE)
+- Date on which they wish to see a game (DONE)
+- How far they are willing to travel (Tests done)
 - How they can travel (public transport / by car)
 
 upon receipt of the above, application will provide the following:
