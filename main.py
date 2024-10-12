@@ -10,14 +10,19 @@ def main():
         while True:
             postcode = input("Enter your postcode: ")
             if postcode_validation(postcode):
-                print("Valid postcode.")
+                print(f"Your postcode has been validated and set at {postcode}.")
                 break  # Exit the loop once a valid postcode is entered
             else:
                 print("Invalid postcode. Please try again.")
     except EOFError:  # Handle Ctrl+D (End of Input)
         print("\nInput interrupted. Exiting...")
     date_of_match = convert_date_format()
-    print(date_of_match)
+    time.sleep(.05)
+    print(f"Your chosen date is: {date_of_match}")
+    distance = get_travel_miles()
+    time.sleep(.05)
+    print(f"You are willing to travel: {distance}")
+
 
 
 def postcode_validation(postcode):
@@ -33,12 +38,15 @@ def postcode_validation(postcode):
     except requests.RequestException as e:
         print(f"Error occurred: {e}")
         return False  # Return False if there's an error during the request
+    except EOFError:  # Handle Ctrl+D (End of Input)
+        print("\nInput interrupted. Exiting...")
 
 
 def convert_date_format():
-
+    time.sleep(1)
     print("Enter the date you wish to see a match")
     while True:
+        time.sleep(1)
         date = input("Date format must be DD/MM/YYYY: ")
         try:
             if "/" in date:
@@ -53,9 +61,25 @@ def convert_date_format():
                 print("date format incorrect")
         except ValueError:
             continue
+        except EOFError:  # Handle Ctrl+D (End of Input)
+            print("\nInput interrupted. Exiting...")
 
 def get_travel_miles():
-    pass
+    while True:
+        time.sleep(1)
+        miles = input("Enter the number of miles you are willing to travel: ")
+        try:
+            miles = float(miles)  # Convert to float
+            if miles < 0:  # Check for negative values
+                print("Invalid input. Please enter a non-negative number.")
+                continue
+            return miles
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+        except EOFError:  # Handle Ctrl+D (End of Input)
+            print("\nInput interrupted. Exiting...")
+
+
 
 if __name__ == "__main__":
     main()
