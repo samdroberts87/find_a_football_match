@@ -5,7 +5,7 @@ from unittest.mock import patch
 import json
 
 # Example mock data response from the API for a valid postcode (Bradford city AFC)
-mock_response_json = '''
+mock_response_json = """
 {
     "status": 200,
     "result": {
@@ -53,15 +53,16 @@ mock_response_json = '''
         }
     }
 }
-'''
+"""
+
 
 # Test for postcode validation
 def test_postcode_validation():
     # Load mock data using json
     mock_response_data = json.loads(mock_response_json)
-    
+
     # Patch 'requests.get' to mock API response
-    with patch('requests.get') as mock_get:
+    with patch("requests.get") as mock_get:
         # Mock the response status and json data
         mock_get.return_value.status_code = 200
         mock_get.return_value.json.return_value = mock_response_data
@@ -72,18 +73,23 @@ def test_postcode_validation():
         # Check if the function returns True for a valid postcode
         assert result == True
 
+
 def test_invalid_postcode():
     # Mock response for an invalid postcode (404 Not Found)
-    with patch('requests.get') as mock_get:
+    with patch("requests.get") as mock_get:
         mock_get.return_value.status_code = 404
-        mock_get.return_value.json.return_value = {"status": 404, "error": "Postcode not found"}
+        mock_get.return_value.json.return_value = {
+            "status": 404,
+            "error": "Postcode not found",
+        }
 
         result = postcode_validation("INVALIDCODE")
         assert result == False
 
+
 def test_api_server_error():
     # Mock response for a server error (500)
-    with patch('requests.get') as mock_get:
+    with patch("requests.get") as mock_get:
         mock_get.return_value.status_code = 500
         result = postcode_validation("BD8 7DY")
         assert result == False
