@@ -54,6 +54,8 @@ def convert_date_format():
         except ValueError:
             continue
 
+def get_travel_miles():
+    pass
 
 if __name__ == "__main__":
     main()
