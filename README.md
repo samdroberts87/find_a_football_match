@@ -5,9 +5,10 @@
 1. Prompt user for input for the following things
 - Their postcode (DONE)
 - Date on which they wish to see a game (DONE)
-- How far they are willing to travel (Tests done)
-- How they can travel (public transport / by car)
+- How far they are willing to travel (DONE)
+- How they can travel (public transport / by car) (OUTSDANDING)
 
+### Everything below this line is outstanding
 upon receipt of the above, application will provide the following:
 2. Display the following:
 - The closest football macth to the user, on the given day
