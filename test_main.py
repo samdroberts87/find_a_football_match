@@ -1,7 +1,6 @@
 import pytest
-import requests
-from main import postcode_validation
-from unittest.mock import patch
+from main import postcode_validation, convert_date_format
+from unittest.mock import patch, MagicMock
 import json
 
 # Example mock data response from the API for a valid postcode (Bradford city AFC)
@@ -55,7 +54,6 @@ mock_response_json = """
 }
 """
 
-
 # Test for postcode validation
 def test_postcode_validation():
     # Load mock data using json
@@ -93,3 +91,21 @@ def test_api_server_error():
         mock_get.return_value.status_code = 500
         result = postcode_validation("BD8 7DY")
         assert result == False
+
+# Test for valid date format conversion
+def test_convert_date_format_valid():
+    with patch("builtins.input", side_effect=["12/10/2024"]):
+        result = convert_date_format()
+        assert result == "2024-10-12"  # Check if the date is correctly formatted
+
+# Test for invalid date format and then valid
+def test_convert_date_format_invalid_then_valid():
+    with patch("builtins.input", side_effect=["12/34/2024", "32/10/2024", "15/10/2024"]):
+        result = convert_date_format()
+        assert result == "2024-10-15"  # The final valid input should be accepted
+
+# Test invalid input multiple times
+def test_convert_date_format_multiple_invalid():
+    with patch("builtins.input", side_effect=["abcd", "1234", "12/10/2024"]):
+        result = convert_date_format()
+        assert result == "2024-10-12"  # Only the last valid date should be returned
