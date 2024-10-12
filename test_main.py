@@ -54,7 +54,7 @@ mock_response_json = """
 }
 """
 
-
+##### POSTCODE TESTS ######
 # Test for postcode validation
 def test_postcode_validation():
     # Load mock data using json
@@ -94,6 +94,7 @@ def test_api_server_error():
         assert result == False
 
 
+##### DATE FORMAT TESTS #####
 # Test for valid date format conversion
 def test_convert_date_format_valid():
     with patch("builtins.input", side_effect=["12/10/2024"]):
@@ -116,7 +117,7 @@ def test_convert_date_format_multiple_invalid():
         result = convert_date_format()
         assert result == "2024-10-12"  # Only the last valid date should be returned
 
-
+##### TESTS FOR DISTANCE #####
 # Test for valid numeric input
 def test_get_travel_miles_valid():
     with patch("builtins.input", return_value="25.5"):
