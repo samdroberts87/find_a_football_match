@@ -4,10 +4,12 @@ import json
 import sys
 import os
 import requests
+from geopy.distance import great_circle
+# run with pytest tests/test_main.py -p no:warnings -v
 
 # Add the parent directory (where main.py is located) to sys.path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from main import postcode_validation, convert_date_format, get_travel_miles, have_car
+from main import postcode_validation, convert_date_format, get_travel_miles, have_car, get_coordinates, get_fixtures
 
 # Example mock data response from the API for a valid postcode (Bradford city AFC)
 mock_response_json = """
@@ -241,3 +243,47 @@ def test_have_car_n():
     with patch("builtins.input", return_value="n"):
         result = have_car()
         assert result == False  # Check that "n" is interpreted as "no"
+
+# Test for valid postcode coordinates
+@patch("geopy.geocoders.Nominatim.geocode")
+def test_get_coordinates_valid_postcode(mock_geocode):
+    mock_geocode.return_value = MagicMock(latitude=53.803578, longitude=-1.759482)
+    result = get_coordinates("BD8 7DY")
+    assert result == (53.803578, -1.759482)  # Should return correct coordinates
+
+# Test for invalid postcode (geocoding failure)
+@patch("geopy.geocoders.Nominatim.geocode", return_value=None)
+def test_get_coordinates_invalid_postcode(mock_geocode):
+    result = get_coordinates("INVALID")
+    assert result is None  # Should return None for invalid postcode
+
+
+# Test when there are no fixtures for the date
+@patch("requests.get")
+def test_get_fixtures_no_fixtures(mock_get):
+    mock_get.return_value.status_code = 200
+    mock_get.return_value.json.return_value = {"data": []}  # No matches
+    result = get_fixtures("2024-10-19")
+    assert result == []  # Should return an empty list when no matches are available
+
+
+# Test when fixtures are available
+@patch("requests.get")
+def test_get_fixtures_with_fixtures(mock_get):
+    mock_get.return_value.status_code = 200
+    mock_get.return_value.json.return_value = {
+        "data": [
+            {"homeTeam": {"name": "Liverpool"}},
+            {"homeTeam": {"name": "Manchester United"}},
+        ]
+    }
+    result = get_fixtures("2024-10-19")
+    assert result == ["Liverpool", "Manchester United"]  # Should return the correct list of teams
+
+
+# Test when the API call fails
+@patch("requests.get")
+def test_get_fixtures_api_failure(mock_get):
+    mock_get.return_value.status_code = 500
+    result = get_fixtures("2024-10-19")
+    assert result is None  # Should return None if the API fails
