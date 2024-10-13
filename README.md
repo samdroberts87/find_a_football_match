@@ -1,5 +1,5 @@
 ## Find a football match
-![Demo Video](find_a_football_match.mov)
+![Demo Video](find-a-football-match.mp4)
 
 Application will prompt user for input for the following things:
 - Their postcode
