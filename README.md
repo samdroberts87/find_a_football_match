@@ -6,11 +6,10 @@
 - Their postcode (DONE)
 - Date on which they wish to see a game (DONE)
 - How far they are willing to travel (DONE)
-- How they can travel (public transport / by car) (OUTSDANDING)
+- How they can travel (public transport / by car) (DONE)
 
-### Everything below this line is outstanding
 upon receipt of the above, application will provide the following:
 2. Display the following:
-- The closest football macth to the user, on the given day
-- Google maps link to see how to get to the match by car
-- Google maps link to show how to get to the match by train
+- All football teams from the premier league that are playing at home within the users chosen distance, on the given day (DONE)
+- Google maps link to see how to get to the match by car (OUTSTANDING)
+- Google maps link to show how to get to the match by train (OUTSTANDING)
