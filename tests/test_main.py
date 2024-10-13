@@ -1,7 +1,13 @@
 import pytest
-from main import postcode_validation, convert_date_format, get_travel_miles, have_car
 from unittest.mock import patch, MagicMock
 import json
+import sys
+import os
+import requests
+
+# Add the parent directory (where main.py is located) to sys.path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from main import postcode_validation, convert_date_format, get_travel_miles, have_car
 
 # Example mock data response from the API for a valid postcode (Bradford city AFC)
 mock_response_json = """
@@ -95,7 +101,37 @@ def test_api_server_error():
         assert result == False
 
 
+# Test for no internet connection (RequestException)
+def test_postcode_validation_request_exception():
+    with patch("requests.get", side_effect=requests.RequestException("Network error")):
+        result = postcode_validation("BD8 7DY")
+        assert result == False  # Should return False on network error
+
+
+# Test for request timeout
+def test_postcode_validation_timeout():
+    with patch("requests.get", side_effect=requests.Timeout):
+        result = postcode_validation("BD8 7DY")
+        assert result == False  # Should return False on timeout
+
+
 ##### DATE FORMAT TESTS #####
+# Test for out of range dates (32nd day, 13th month)
+def test_convert_date_format_out_of_range():
+    with patch(
+        "builtins.input", side_effect=["32/12/2024", "15/13/2024", "15/10/2024"]
+    ):
+        result = convert_date_format()
+        assert result == "2024-10-15"  # Should only accept valid date
+
+
+# Test for date with year less than current year
+def test_convert_date_format_past_year():
+    with patch("builtins.input", side_effect=["12/10/2023", "12/10/2024"]):
+        result = convert_date_format()
+        assert result == "2024-10-12"  # Should not accept year less than 2024
+
+
 # Test for valid date format conversion
 def test_convert_date_format_valid():
     with patch("builtins.input", side_effect=["12/10/2024"]):
@@ -120,6 +156,13 @@ def test_convert_date_format_multiple_invalid():
 
 
 ##### TESTS FOR DISTANCE #####
+# Test for very large distance input
+def test_get_travel_miles_large_number():
+    with patch("builtins.input", return_value="10000"):
+        result = get_travel_miles()
+        assert result == 10000.0  # Should correctly return the large distance
+
+
 # Test for valid numeric input
 def test_get_travel_miles_valid():
     with patch("builtins.input", return_value="25.5"):
@@ -163,6 +206,19 @@ def test_get_travel_miles_zero():
 
 
 ##### TESTS FOR CAR OWNERSHIP #####
+# Test for capitalized YES and NO
+def test_have_car_capital_yes():
+    with patch("builtins.input", return_value="YES"):
+        result = have_car()
+        assert result == True  # Should return True for capital "YES"
+
+
+def test_have_car_capital_no():
+    with patch("builtins.input", return_value="NO"):
+        result = have_car()
+        assert result == False  # Should return False for capital "NO"
+
+
 def test_have_car_yes():
     with patch("builtins.input", return_value="yes"):
         result = have_car()
