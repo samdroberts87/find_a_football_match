@@ -85,7 +85,7 @@ def main():
         for i in available_teams:
             time.sleep(0.5)
             url = f"https://www.google.com/maps/dir/{postcode}/{premier_league_teams[i][0]}"
-            termcolor.cprint(f"{i} are at home", attrs=["bold"])
+            termcolor.cprint(f"{i} are at home", "green", attrs=["bold"])
             print(f"Here's the club's website to buy tickets: {premier_league_teams[i][1]}")
             print(f"Here's a google maps link with details of how to get there: {url}")
 
