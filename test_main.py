@@ -1,5 +1,5 @@
 import pytest
-from main import postcode_validation, convert_date_format, get_travel_miles
+from main import postcode_validation, convert_date_format, get_travel_miles, have_car
 from unittest.mock import patch, MagicMock
 import json
 
@@ -160,3 +160,28 @@ def test_get_travel_miles_zero():
     with patch("builtins.input", return_value="0"):
         result = get_travel_miles()
         assert result == 0.0  # Check that zero is accepted and returned correctly
+
+
+##### TESTS FOR CAR OWNERSHIP #####
+def test_have_car_yes():
+    with patch("builtins.input", return_value="yes"):
+        result = have_car()
+        assert result == "yes"  # Check that the function correctly returns "yes"
+
+
+def test_have_car_y():
+    with patch("builtins.input", return_value="y"):
+        result = have_car()
+        assert result == "yes"  # Check that "y" is interpreted as "yes"
+
+
+def test_have_car_no():
+    with patch("builtins.input", return_value="no"):
+        result = have_car()
+        assert result == "no"  # Check that the function correctly returns "no"
+
+
+def test_have_car_n():
+    with patch("builtins.input", return_value="n"):
+        result = have_car()
+        assert result == "no"  # Check that "n" is interpreted as "no"
