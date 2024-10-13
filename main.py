@@ -25,10 +25,14 @@ def main():
     car_bool = have_car()
     time.sleep(0.5)
     if car_bool:
-        print("Okay, so you can travel by car. We'll get provide you the google maps route.")
+        print(
+            "Okay, so you can travel by car. We'll get provide you the google maps route."
+        )
     else:
         print("Okay, No car - No problem. We'll get you train details. ")
-    print("Thank you for that information. We'll get right on it. Please wait a few moments....")
+    print(
+        "Thank you for that information. We'll get right on it. Please wait a few moments...."
+    )
 
 
 def postcode_validation(postcode):
