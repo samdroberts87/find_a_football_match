@@ -172,31 +172,36 @@ def have_car():
 
 
 def find_nearby_postcodes(target_postcode, distance_limit_miles, teams):
-    """Find postcodes within the specified distance from the target postcode."""
-    target_coords = get_coordinates(target_postcode)
-    if not target_coords:
-        return []
+    try:   
+        target_coords = get_coordinates(target_postcode)
+        if not target_coords:
+            return []
 
-    nearby_teams = []
+        nearby_teams = []
 
-    for team, postcode in teams.items():
-        coords = get_coordinates(postcode)
-        if coords:
-            distance = great_circle(target_coords, coords).miles
-            if distance <= distance_limit_miles:
-                nearby_teams.append((team, postcode, distance))
+        for team, postcode in teams.items():
+            coords = get_coordinates(postcode)
+            if coords:
+                distance = great_circle(target_coords, coords).miles
+                if distance <= distance_limit_miles:
+                    nearby_teams.append((team, postcode, distance))
 
-    return nearby_teams
+        return nearby_teams
+    except EOFError:  # Handle Ctrl+D (End of Input)
+        print("\nInput interrupted. Exiting...")
 
 
 def get_coordinates(postcode):
     """Get the latitude and longitude of a postcode."""
-    location = geolocator.geocode(postcode + ", UK")
-    if location:
-        return (location.latitude, location.longitude)
-    else:
-        print(f"Could not find coordinates for postcode: {postcode}")
-        return None
+    try:    
+        location = geolocator.geocode(postcode + ", UK")
+        if location:
+            return (location.latitude, location.longitude)
+        else:
+            print(f"Could not find coordinates for postcode: {postcode}")
+            return None
+    except EOFError:  # Handle Ctrl+D (End of Input)
+        print("\nInput interrupted. Exiting...")
 
 
 def get_fixtures(date_of_match):
@@ -213,21 +218,22 @@ def get_fixtures(date_of_match):
         "x-rapidapi-host": "sport-highlights-api.p.rapidapi.com",
     }
 
-    response = requests.get(url, headers=headers, params=querystring)
+    try:
+        response = requests.get(url, headers=headers, params=querystring)
 
-    # Check if the request was successful
-    if response.status_code == 200:
-        # Parse the JSON response
-        json_data = response.json()
+        # Check if the request was successful
+        if response.status_code == 200:
+            # Parse the JSON response
+            json_data = response.json()
 
-        # Extract away team names
-        home_team_names = [match["homeTeam"]["name"] for match in json_data["data"]]
+            # Extract home team names
+            home_team_names = [match["homeTeam"]["name"] for match in json_data["data"]]
 
-        # Print or return the list of away team names
-        # print(home_team_names)
-        return home_team_names  # You can return the list if needed
-    else:
-        print(f"Error: {response.status_code} - {response.text}")
+            return home_team_names 
+        else:
+            print(f"Error: {response.status_code} - {response.text}")
+    except EOFError:  # Handle Ctrl+D (End of Input)
+        print("\nInput interrupted. Exiting...")
 
 
 if __name__ == "__main__":
