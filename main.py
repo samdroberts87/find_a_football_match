@@ -17,11 +17,18 @@ def main():
     except EOFError:  # Handle Ctrl+D (End of Input)
         print("\nInput interrupted. Exiting...")
     date_of_match = convert_date_format()
-    time.sleep(0.05)
+    time.sleep(0.5)
     print(f"Your chosen date is: {date_of_match}")
     distance = get_travel_miles()
-    time.sleep(0.05)
+    time.sleep(0.5)
     print(f"You are willing to travel: {distance}")
+    car_bool = have_car()
+    time.sleep(0.5)
+    if car_bool:
+        print("Okay, so you can travel by car. We'll get provide you the google maps route.")
+    else:
+        print("Okay, No car - No problem. We'll get you train details. ")
+    print("Thank you for that information. We'll get right on it. Please wait a few moments....")
 
 
 def postcode_validation(postcode):
@@ -74,6 +81,26 @@ def get_travel_miles():
                 print("Invalid input. Please enter a non-negative number.")
                 continue
             return miles
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+        except EOFError:  # Handle Ctrl+D (End of Input)
+            print("\nInput interrupted. Exiting...")
+
+
+def have_car():
+    while True:
+        time.sleep(1)
+        result = input("Do you own a car? (y/n): ").lower()
+        try:
+            if result not in ["yes", "y", "no", "n"]:
+                print("Invalid input. Please enter a non-negative number.")
+                continue
+            elif result in ["yes", "y"]:
+                result = True
+                return result
+            elif result in ["no", "n"]:
+                result = False
+                return result
         except ValueError:
             print("Invalid input. Please enter a number.")
         except EOFError:  # Handle Ctrl+D (End of Input)
