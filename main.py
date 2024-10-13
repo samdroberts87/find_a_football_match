@@ -6,26 +6,26 @@ from config import SPORT_HIGHLIGHTS_API_KEY
 import sys
 
 premier_league_teams = {
-    "Liverpool": "L4 0TH",  # Anfield
-    "Manchester City": "M11 3FF",  # Etihad Stadium
-    "Arsenal": "N5 1BU",  # Emirates Stadium
-    "Chelsea": "SW6 1HS",  # Stamford Bridge
-    "Aston Villa": "B6 6HE",  # Villa Park
-    "Brighton": "BN1 9BL",  # Amex Stadium
-    "Newcastle": "NE1 4ST",  # St James' Park
-    "Fulham": "SW6 6HH",  # Craven Cottage
-    "Tottenham": "N17 0AP",  # Tottenham Hotspur Stadium
-    "Nottingham Forest": "NG2 3HN",  # City Ground
-    "Brentford": "TW8 0NT",  # Gtech Community Stadium
-    "West Ham": "E20 2ST",  # London Stadium
-    "Bournemouth": "BH7 7AF",  # Vitality Stadium
-    "Manchester United": "M16 0RA",  # Old Trafford
-    "Leicester": "LE2 7FL",  # King Power Stadium
-    "Everton": "L4 4EL",  # Goodison Park
-    "Ipswich": "IP1 2DA",  # Portman Road
-    "Crystal Palace": "SE25 6PU",  # Selhurst Park
-    "Southampton": "SO14 5FP",  # St Mary's Stadium
-    "Wolves": "WV1 4QR",  # Molineux Stadium
+    "Liverpool": "L40TH",  # Anfield
+    "Manchester City": "M113FF",  # Etihad Stadium
+    "Arsenal": "N51BU",  # Emirates Stadium
+    "Chelsea": "SW61HS",  # Stamford Bridge
+    "Aston Villa": "B66HE",  # Villa Park
+    "Brighton": "BN19BL",  # Amex Stadium
+    "Newcastle": "NE14ST",  # St James' Park
+    "Fulham": "SW66HH",  # Craven Cottage
+    "Tottenham": "N170AP",  # Tottenham Hotspur Stadium
+    "Nottingham Forest": "NG25FJ",  # City Ground
+    "Brentford": "TW80NT",  # Gtech Community Stadium
+    "West Ham": "E202ST",  # London Stadium
+    "Bournemouth": "BH77AF",  # Vitality Stadium
+    "Manchester United": "M160RA",  # Old Trafford
+    "Leicester": "LE27FL",  # King Power Stadium
+    "Everton": "L44EL",  # Goodison Park
+    "Ipswich": "IP12DA",  # Portman Road
+    "Crystal Palace": "SE256PU",  # Selhurst Park
+    "Southampton": "SO145FP",  # St Mary's Stadium
+    "Wolves": "WV14QR",  # Molineux Stadium
 }
 
 # Initialize the geocoder
@@ -38,7 +38,7 @@ def main():
     print("Let's find you a premier league football match to watch!")
     try:
         while True:
-            postcode = input("Enter your postcode: ")
+            postcode = input("Enter your postcode: ").replace(" ", "")
             if postcode_validation(postcode):
                 print(f"Your postcode has been validated and set at {postcode}.")
                 break  # Exit the loop once a valid postcode is entered
@@ -53,19 +53,9 @@ def main():
     distance = get_travel_miles()
     time.sleep(0.5)
     print(f"You are willing to travel: {distance:.2f} miles")
-    car_bool = have_car()
-    time.sleep(0.5)
-    if car_bool:
-        print(
-            "Okay, so you can travel by car. We'll provide you the Google Maps route."
-        )
-    else:
-        print("Okay, No car - No problem. We'll get you train details.")
-
     print(
         "Thank you for that information. We'll get right on it. Please wait a few moments...."
     )
-
     # Find nearby teams
     nearby_teams = find_nearby_postcodes(postcode, distance, premier_league_teams)
     if nearby_teams:
@@ -92,8 +82,11 @@ def main():
     else:
         for i in available_teams:
             time.sleep(0.5)
+            url = (
+                f"https://www.google.com/maps/dir/{postcode}/{premier_league_teams[i]}"
+            )
             print(
-                f"{i} play at home. Here's a google maps link with details of how to get there"
+                f"{i} play at home. Here's a google maps link with details of how to get there: {url}"
             )
 
 
@@ -153,26 +146,8 @@ def get_travel_miles():
             print("\nInput interrupted. Exiting...")
 
 
-def have_car():
-    while True:
-        time.sleep(1)
-        result = input("Do you own a car? (y/n): ").lower()
-        try:
-            if result not in ["yes", "y", "no", "n"]:
-                print("Invalid input. Please enter 'y' or 'n'.")
-                continue
-            elif result in ["yes", "y"]:
-                return True
-            elif result in ["no", "n"]:
-                return False
-        except ValueError:
-            print("Invalid input. Please enter 'y' or 'n'.")
-        except EOFError:  # Handle Ctrl+D (End of Input)
-            print("\nInput interrupted. Exiting...")
-
-
 def find_nearby_postcodes(target_postcode, distance_limit_miles, teams):
-    try:   
+    try:
         target_coords = get_coordinates(target_postcode)
         if not target_coords:
             return []
@@ -193,7 +168,7 @@ def find_nearby_postcodes(target_postcode, distance_limit_miles, teams):
 
 def get_coordinates(postcode):
     """Get the latitude and longitude of a postcode."""
-    try:    
+    try:
         location = geolocator.geocode(postcode + ", UK")
         if location:
             return (location.latitude, location.longitude)
@@ -229,7 +204,7 @@ def get_fixtures(date_of_match):
             # Extract home team names
             home_team_names = [match["homeTeam"]["name"] for match in json_data["data"]]
 
-            return home_team_names 
+            return home_team_names
         else:
             print(f"Error: {response.status_code} - {response.text}")
     except EOFError:  # Handle Ctrl+D (End of Input)

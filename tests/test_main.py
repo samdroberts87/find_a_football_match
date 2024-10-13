@@ -5,11 +5,18 @@ import sys
 import os
 import requests
 from geopy.distance import great_circle
+
 # run with pytest tests/test_main.py -p no:warnings -v
 
 # Add the parent directory (where main.py is located) to sys.path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from main import postcode_validation, convert_date_format, get_travel_miles, have_car, get_coordinates, get_fixtures
+from main import (
+    postcode_validation,
+    convert_date_format,
+    get_travel_miles,
+    get_coordinates,
+    get_fixtures,
+)
 
 # Example mock data response from the API for a valid postcode (Bradford city AFC)
 mock_response_json = """
@@ -207,49 +214,13 @@ def test_get_travel_miles_zero():
         assert result == 0.0  # Check that zero is accepted and returned correctly
 
 
-##### TESTS FOR CAR OWNERSHIP #####
-# Test for capitalized YES and NO
-def test_have_car_capital_yes():
-    with patch("builtins.input", return_value="YES"):
-        result = have_car()
-        assert result == True  # Should return True for capital "YES"
-
-
-def test_have_car_capital_no():
-    with patch("builtins.input", return_value="NO"):
-        result = have_car()
-        assert result == False  # Should return False for capital "NO"
-
-
-def test_have_car_yes():
-    with patch("builtins.input", return_value="yes"):
-        result = have_car()
-        assert result == True  # Check that the function correctly returns "yes"
-
-
-def test_have_car_y():
-    with patch("builtins.input", return_value="y"):
-        result = have_car()
-        assert result == True  # Check that "y" is interpreted as "yes"
-
-
-def test_have_car_no():
-    with patch("builtins.input", return_value="no"):
-        result = have_car()
-        assert result == False  # Check that the function correctly returns "no"
-
-
-def test_have_car_n():
-    with patch("builtins.input", return_value="n"):
-        result = have_car()
-        assert result == False  # Check that "n" is interpreted as "no"
-
 # Test for valid postcode coordinates
 @patch("geopy.geocoders.Nominatim.geocode")
 def test_get_coordinates_valid_postcode(mock_geocode):
     mock_geocode.return_value = MagicMock(latitude=53.803578, longitude=-1.759482)
     result = get_coordinates("BD8 7DY")
     assert result == (53.803578, -1.759482)  # Should return correct coordinates
+
 
 # Test for invalid postcode (geocoding failure)
 @patch("geopy.geocoders.Nominatim.geocode", return_value=None)
@@ -278,7 +249,10 @@ def test_get_fixtures_with_fixtures(mock_get):
         ]
     }
     result = get_fixtures("2024-10-19")
-    assert result == ["Liverpool", "Manchester United"]  # Should return the correct list of teams
+    assert result == [
+        "Liverpool",
+        "Manchester United",
+    ]  # Should return the correct list of teams
 
 
 # Test when the API call fails
