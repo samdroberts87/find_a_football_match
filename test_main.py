@@ -166,22 +166,22 @@ def test_get_travel_miles_zero():
 def test_have_car_yes():
     with patch("builtins.input", return_value="yes"):
         result = have_car()
-        assert result == "yes"  # Check that the function correctly returns "yes"
+        assert result == True  # Check that the function correctly returns "yes"
 
 
 def test_have_car_y():
     with patch("builtins.input", return_value="y"):
         result = have_car()
-        assert result == "yes"  # Check that "y" is interpreted as "yes"
+        assert result == True  # Check that "y" is interpreted as "yes"
 
 
 def test_have_car_no():
     with patch("builtins.input", return_value="no"):
         result = have_car()
-        assert result == "no"  # Check that the function correctly returns "no"
+        assert result == False  # Check that the function correctly returns "no"
 
 
 def test_have_car_n():
     with patch("builtins.input", return_value="n"):
         result = have_car()
-        assert result == "no"  # Check that "n" is interpreted as "no"
+        assert result == False  # Check that "n" is interpreted as "no"
