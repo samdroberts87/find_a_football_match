@@ -7,26 +7,62 @@ import sys
 import termcolor
 
 premier_league_teams = {
-    "Liverpool": ["L40TH", "https://www.liverpoolfc.com/tickets/tickets-availability"],  # Anfield
-    "Manchester City": ["M113FF", "https://www.mancity.com/tickets/mens"],  # Etihad Stadium
+    "Liverpool": [
+        "L40TH",
+        "https://www.liverpoolfc.com/tickets/tickets-availability",
+    ],  # Anfield
+    "Manchester City": [
+        "M113FF",
+        "https://www.mancity.com/tickets/mens",
+    ],  # Etihad Stadium
     "Arsenal": ["N51BU", "https://www.arsenal.com/tickets"],  # Emirates Stadium
-    "Chelsea": ["SW61HS", "https://www.chelseafc.com/en/ticket-information"],  # Stamford Bridge
-    "Aston Villa": ["B66HE", "https://www.avfc.co.uk/fans/fans-charter/ticketing/"],  # Villa Park
-    "Brighton": ["BN19BL", "https://tickets.brightonandhovealbion.com/"],  # Amex Stadium
+    "Chelsea": [
+        "SW61HS",
+        "https://www.chelseafc.com/en/ticket-information",
+    ],  # Stamford Bridge
+    "Aston Villa": [
+        "B66HE",
+        "https://www.avfc.co.uk/fans/fans-charter/ticketing/",
+    ],  # Villa Park
+    "Brighton": [
+        "BN19BL",
+        "https://tickets.brightonandhovealbion.com/",
+    ],  # Amex Stadium
     "Newcastle": ["NE14ST", "https://tickets.manutd.com/"],  # St James' Park
-    "Fulham": ["SW66HH", "https://www.fulhamfc.com/tickets-and-hospitality"],  # Craven Cottage
-    "Tottenham": ["N170AP", "https://www.tottenhamhotspur.com/tickets"],  # Tottenham Hotspur Stadium
-    "Nottingham Forest": ["NG25FJ", "https://www.eticketing.co.uk/nottinghamforest"],  # City Ground
-    "Brentford": ["TW80NT", "https://www.eticketing.co.uk/brentfordfc"],  # Gtech Community Stadium
+    "Fulham": [
+        "SW66HH",
+        "https://www.fulhamfc.com/tickets-and-hospitality",
+    ],  # Craven Cottage
+    "Tottenham": [
+        "N170AP",
+        "https://www.tottenhamhotspur.com/tickets",
+    ],  # Tottenham Hotspur Stadium
+    "Nottingham Forest": [
+        "NG25FJ",
+        "https://www.eticketing.co.uk/nottinghamforest",
+    ],  # City Ground
+    "Brentford": [
+        "TW80NT",
+        "https://www.eticketing.co.uk/brentfordfc",
+    ],  # Gtech Community Stadium
     "West Ham": ["E202ST", "https://www.eticketing.co.uk/whufc"],  # London Stadium
     "Bournemouth": ["BH77AF", "https://www.afcb.co.uk/tickets/"],  # Vitality Stadium
     "Manchester United": ["M160RA", "https://www.manutd.com/tickets"],  # Old Trafford
-    "Leicester": ["LE27FL", "https://www.premierleague.com/www.lcfc.com/season-tickets"],  # King Power Stadium
+    "Leicester": [
+        "LE27FL",
+        "https://www.premierleague.com/www.lcfc.com/season-tickets",
+    ],  # King Power Stadium
     "Everton": ["L44EL", "https://www.evertonfc.com/tickets/latest"],  # Goodison Park
     "Ipswich": ["IP12DA", "https://tickets.itfc.co.uk/"],  # Portman Road
-    "Crystal Palace": ["SE256PU", "https://www.eticketing.co.uk/cpfc/"],  # Selhurst Park
-    "Southampton": ["SO145FP", "https://www.premierleague.com/southamptonfc.com/match-tickets"],  # St Mary's Stadium
-    "Wolves": ["WV14QR", "https://www.eticketing.co.uk/wolves"]  # Molineux Stadium
+    "Crystal Palace": [
+        "SE256PU",
+        "https://www.eticketing.co.uk/cpfc/",
+    ],  # Selhurst Park
+    "Southampton": [
+        "SO145FP",
+        "https://www.premierleague.com/southamptonfc.com/match-tickets",
+    ],  # St Mary's Stadium
+    "Wolves": ["WV14QR", "https://www.eticketing.co.uk/wolves"],  # Molineux Stadium
 }
 
 # Initialize the geocoder
@@ -41,7 +77,9 @@ def main():
         while True:
             postcode = input("Enter your postcode: ").replace(" ", "")
             if postcode_validation(postcode):
-                termcolor.cprint(f"Your postcode has been validated and set as {postcode}", "green")
+                termcolor.cprint(
+                    f"Your postcode has been validated and set as {postcode}", "green"
+                )
                 break  # Exit the loop once a valid postcode is entered
             else:
                 print("Invalid postcode. Please try again.")
@@ -54,9 +92,7 @@ def main():
     distance = get_travel_miles()
     time.sleep(0.5)
     termcolor.cprint(f"You are willing to travel: {distance:.2f} miles", "green")
-    termcolor.cprint(
-        "Please wait a few moments....", attrs=["bold"] 
-    )
+    termcolor.cprint("Please wait a few moments....", attrs=["bold"])
     # Find nearby teams
     nearby_teams = find_nearby_postcodes(postcode, distance, premier_league_teams)
     if nearby_teams:
@@ -79,17 +115,18 @@ def main():
 
     if not available_teams:
         termcolor.cprint(
-            f"Sorry, no matches available on {date_of_match} within {distance} miles of {postcode}", "red"
+            f"Sorry, no matches available on {date_of_match} within {distance} miles of {postcode}",
+            "red",
         )
     else:
         for i in available_teams:
             time.sleep(0.5)
             url = f"https://www.google.com/maps/dir/{postcode}/{premier_league_teams[i][0]}"
             termcolor.cprint(f"{i} are at home", "green", attrs=["bold"])
-            print(f"Here's the club's website to buy tickets: {premier_league_teams[i][1]}")
+            print(
+                f"Here's the club's website to buy tickets: {premier_league_teams[i][1]}"
+            )
             print(f"Here's a google maps link with details of how to get there: {url}")
-
-
 
 
 def postcode_validation(postcode):
@@ -167,7 +204,6 @@ def find_nearby_postcodes(target_postcode, distance_limit_miles, teams):
         return nearby_teams
     except EOFError:  # Handle Ctrl+D (End of Input)
         print("\nInput interrupted. Exiting...")
-
 
 
 def get_coordinates(postcode):
