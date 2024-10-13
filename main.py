@@ -2,32 +2,35 @@ import requests
 import time
 from geopy.geocoders import Nominatim
 from geopy.distance import great_circle
+from config import SPORT_HIGHLIGHTS_API_KEY
+import sys
 
 premier_league_teams = {
-    "liverpool": "L4 0TH",                     # Anfield
-    "manchester city": "M11 3FF",              # Etihad Stadium
-    "arsenal": "N5 1BU",                        # Emirates Stadium
-    "chelsea": "SW6 1HS",                       # Stamford Bridge
-    "aston villa": "B6 6HE",                    # Villa Park
-    "brighton and hove albion": "BN1 9BL",     # Amex Stadium
-    "newcastle united": "NE1 4ST",              # St James' Park
-    "fulham": "SW6 6HH",                        # Craven Cottage
-    "tottenham hotspur": "N17 0AP",             # Tottenham Hotspur Stadium
-    "nottingham forest": "NG2 3HN",             # City Ground
-    "brentford": "TW8 0NT",                     # Gtech Community Stadium
-    "west ham united": "E20 2ST",               # London Stadium
-    "bournemouth": "BH7 7AF",                   # Vitality Stadium
-    "manchester united": "M16 0RA",             # Old Trafford
-    "leicester city": "LE2 7FL",                # King Power Stadium
-    "everton": "L4 4EL",                        # Goodison Park
-    "ipswich": "IP1 2DA",                       # Portman Road
-    "crystal palace": "SE25 6PU",               # Selhurst Park
-    "southampton": "SO14 5FP",                  # St Mary's Stadium
-    "wolverhampton wanderers": "WV1 4QR"        # Molineux Stadium
+    "Liverpool": "L4 0TH",  # Anfield
+    "Manchester City": "M11 3FF",  # Etihad Stadium
+    "Arsenal": "N5 1BU",  # Emirates Stadium
+    "Chelsea": "SW6 1HS",  # Stamford Bridge
+    "Aston Villa": "B6 6HE",  # Villa Park
+    "Brighton": "BN1 9BL",  # Amex Stadium
+    "Newcastle": "NE1 4ST",  # St James' Park
+    "Fulham": "SW6 6HH",  # Craven Cottage
+    "Tottenham": "N17 0AP",  # Tottenham Hotspur Stadium
+    "Nottingham Forest": "NG2 3HN",  # City Ground
+    "Brentford": "TW8 0NT",  # Gtech Community Stadium
+    "West Ham": "E20 2ST",  # London Stadium
+    "Bournemouth": "BH7 7AF",  # Vitality Stadium
+    "Manchester United": "M16 0RA",  # Old Trafford
+    "Leicester": "LE2 7FL",  # King Power Stadium
+    "Everton": "L4 4EL",  # Goodison Park
+    "Ipswich": "IP1 2DA",  # Portman Road
+    "Crystal Palace": "SE25 6PU",  # Selhurst Park
+    "Southampton": "SO14 5FP",  # St Mary's Stadium
+    "Wolves": "WV1 4QR",  # Molineux Stadium
 }
 
 # Initialize the geocoder
 geolocator = Nominatim(user_agent="postcode_distance_checker")
+
 
 def main():
     print("Welcome to Find A Football Match")
@@ -71,6 +74,28 @@ def main():
             print(f" - {team.title()} ({team_postcode}): {team_distance:.2f} miles")
     else:
         print("No teams found within your travel distance.")
+        sys.exit(0)
+
+    print(f"Let's see which of those teams are playing at home on {date_of_match}")
+
+    home_teams = get_fixtures(date_of_match)
+
+    available_teams = []
+    for team, _, _ in nearby_teams:
+        if team in home_teams:
+            available_teams.append(team)
+
+    if not available_teams:
+        print(
+            f"Sorry, no matches available on {date_of_match} within {distance} miles of {postcode}"
+        )
+    else:
+        for i in available_teams:
+            time.sleep(0.5)
+            print(
+                f"{i} play at home. Here's a google maps link with details of how to get there"
+            )
+
 
 def postcode_validation(postcode):
     try:
@@ -87,6 +112,7 @@ def postcode_validation(postcode):
         return False  # Return False if there's an error during the request
     except EOFError:  # Handle Ctrl+D (End of Input)
         print("\nInput interrupted. Exiting...")
+
 
 def convert_date_format():
     time.sleep(1)
@@ -110,6 +136,7 @@ def convert_date_format():
         except EOFError:  # Handle Ctrl+D (End of Input)
             print("\nInput interrupted. Exiting...")
 
+
 def get_travel_miles():
     while True:
         time.sleep(1)
@@ -124,6 +151,7 @@ def get_travel_miles():
             print("Invalid input. Please enter a number.")
         except EOFError:  # Handle Ctrl+D (End of Input)
             print("\nInput interrupted. Exiting...")
+
 
 def have_car():
     while True:
@@ -142,6 +170,7 @@ def have_car():
         except EOFError:  # Handle Ctrl+D (End of Input)
             print("\nInput interrupted. Exiting...")
 
+
 def find_nearby_postcodes(target_postcode, distance_limit_miles, teams):
     """Find postcodes within the specified distance from the target postcode."""
     target_coords = get_coordinates(target_postcode)
@@ -156,8 +185,9 @@ def find_nearby_postcodes(target_postcode, distance_limit_miles, teams):
             distance = great_circle(target_coords, coords).miles
             if distance <= distance_limit_miles:
                 nearby_teams.append((team, postcode, distance))
-    
+
     return nearby_teams
+
 
 def get_coordinates(postcode):
     """Get the latitude and longitude of a postcode."""
@@ -167,6 +197,38 @@ def get_coordinates(postcode):
     else:
         print(f"Could not find coordinates for postcode: {postcode}")
         return None
+
+
+def get_fixtures(date_of_match):
+    url = "https://sport-highlights-api.p.rapidapi.com/football/matches"
+
+    querystring = {
+        "leagueId": "33973",  # Premier League ID
+        "season": "2024",
+        "date": date_of_match,
+    }
+
+    headers = {
+        "x-rapidapi-key": SPORT_HIGHLIGHTS_API_KEY,
+        "x-rapidapi-host": "sport-highlights-api.p.rapidapi.com",
+    }
+
+    response = requests.get(url, headers=headers, params=querystring)
+
+    # Check if the request was successful
+    if response.status_code == 200:
+        # Parse the JSON response
+        json_data = response.json()
+
+        # Extract away team names
+        home_team_names = [match["homeTeam"]["name"] for match in json_data["data"]]
+
+        # Print or return the list of away team names
+        # print(home_team_names)
+        return home_team_names  # You can return the list if needed
+    else:
+        print(f"Error: {response.status_code} - {response.text}")
+
 
 if __name__ == "__main__":
     main()
