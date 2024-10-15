@@ -7,16 +7,19 @@ from modules.date_utils import convert_date_format
 from modules.geolocation import get_travel_miles, find_nearby_postcodes
 from modules.api_requests import get_fixtures
 
+
 def main():
     termcolor.cprint("\nWelcome to Find A Football Match", "green")
     time.sleep(1)
     print("Let's find you a premier league football match to watch!")
-    
+
     try:
         while True:
             postcode = input("Enter your postcode: ").replace(" ", "")
             if postcode_validation(postcode):
-                termcolor.cprint(f"Your postcode has been validated and set as {postcode}", "green")
+                termcolor.cprint(
+                    f"Your postcode has been validated and set as {postcode}", "green"
+                )
                 break
             else:
                 print("Invalid postcode. Please try again.")
@@ -32,7 +35,7 @@ def main():
     termcolor.cprint("Please wait a few moments....", attrs=["bold"])
 
     nearby_teams = find_nearby_postcodes(postcode, distance, premier_league_teams)
-    
+
     if nearby_teams:
         termcolor.cprint("Teams within your travel distance:", "green")
         for team, team_postcode, team_distance in nearby_teams:
@@ -52,13 +55,18 @@ def main():
             available_teams.append(team)
 
     if not available_teams:
-        termcolor.cprint(f"Sorry, no matches available on {date_of_match} within {distance} miles of {postcode}", "red")
+        termcolor.cprint(
+            f"Sorry, no matches available on {date_of_match} within {distance} miles of {postcode}",
+            "red",
+        )
     else:
         for i in available_teams:
             time.sleep(0.5)
             url = f"https://www.google.com/maps/dir/{postcode}/{premier_league_teams[i][0]}"
             termcolor.cprint(f"{i} are at home", "green", attrs=["bold"])
-            print(f"Here's the club's website to buy tickets: {premier_league_teams[i][1]}")
+            print(
+                f"Here's the club's website to buy tickets: {premier_league_teams[i][1]}"
+            )
             print(f"Here's a google maps link with details of how to get there: {url}")
 
 

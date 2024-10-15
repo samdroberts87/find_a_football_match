@@ -4,6 +4,7 @@ from geopy.distance import great_circle
 
 geolocator = Nominatim(user_agent="postcode_distance_checker")
 
+
 def get_travel_miles():
     while True:
         time.sleep(1)
@@ -18,6 +19,7 @@ def get_travel_miles():
             print("Invalid input. Please enter a number.")
         except EOFError:
             print("\nInput interrupted. Exiting...")
+
 
 def find_nearby_postcodes(target_postcode, distance_limit_miles, teams):
     try:
@@ -36,6 +38,7 @@ def find_nearby_postcodes(target_postcode, distance_limit_miles, teams):
         return nearby_teams
     except EOFError:
         print("\nInput interrupted. Exiting...")
+
 
 def get_coordinates(postcode):
     try:

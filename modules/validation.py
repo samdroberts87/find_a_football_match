@@ -1,5 +1,6 @@
 import requests
 
+
 def postcode_validation(postcode):
     try:
         postcode_api = "https://api.postcodes.io/postcodes/"

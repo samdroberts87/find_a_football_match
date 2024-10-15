@@ -13,10 +13,16 @@ premier_league_teams = {
     "West Ham": ["E202ST", "https://www.eticketing.co.uk/whufc"],
     "Bournemouth": ["BH77AF", "https://www.afcb.co.uk/tickets/"],
     "Manchester United": ["M160RA", "https://www.manutd.com/tickets"],
-    "Leicester": ["LE27FL", "https://www.premierleague.com/www.lcfc.com/season-tickets"],
+    "Leicester": [
+        "LE27FL",
+        "https://www.premierleague.com/www.lcfc.com/season-tickets",
+    ],
     "Everton": ["L44EL", "https://www.evertonfc.com/tickets/latest"],
     "Ipswich": ["IP12DA", "https://tickets.itfc.co.uk/"],
     "Crystal Palace": ["SE256PU", "https://www.eticketing.co.uk/cpfc/"],
-    "Southampton": ["SO145FP", "https://www.premierleague.com/southamptonfc.com/match-tickets"],
+    "Southampton": [
+        "SO145FP",
+        "https://www.premierleague.com/southamptonfc.com/match-tickets",
+    ],
     "Wolves": ["WV14QR", "https://www.eticketing.co.uk/wolves"],
 }

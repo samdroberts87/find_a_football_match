@@ -1,6 +1,7 @@
 import requests
 from config import SPORT_HIGHLIGHTS_API_KEY
 
+
 def get_fixtures(date_of_match):
     url = "https://sport-highlights-api.p.rapidapi.com/football/matches"
     querystring = {
@@ -8,7 +9,7 @@ def get_fixtures(date_of_match):
         "season": "2024",
         "date": date_of_match,
     }
-    
+
     headers = {
         "x-rapidapi-key": SPORT_HIGHLIGHTS_API_KEY,
         "x-rapidapi-host": "sport-highlights-api.p.rapidapi.com",
