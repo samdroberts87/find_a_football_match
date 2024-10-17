@@ -1,6 +1,5 @@
 import pytest
 from unittest.mock import patch
-import json
 import requests
 from modules.validation import postcode_validation
 

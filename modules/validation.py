@@ -1,6 +1,5 @@
 import requests
 import termcolor
-import time
 
 
 def postcode_validation(max_retries=3):
