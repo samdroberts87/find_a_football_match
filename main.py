@@ -13,18 +13,11 @@ def main():
     time.sleep(1)
     print("Let's find you a premier league football match to watch!")
 
-    try:
-        while True:
-            postcode = input("Enter your postcode: ").replace(" ", "")
-            if postcode_validation(postcode):
-                termcolor.cprint(
-                    f"Your postcode has been validated and set as {postcode}", "green"
-                )
-                break
-            else:
-                print("Invalid postcode. Please try again.")
-    except EOFError:
-        print("\nInput interrupted. Exiting...")
+    postcode = postcode_validation()
+    if postcode:
+        termcolor.cprint(f"Postcode {postcode} is now set. Proceeding...", "green")
+    else:
+        print("Exiting program due to an error or user interruption.")
 
     date_of_match = convert_date_format()
     time.sleep(0.5)
