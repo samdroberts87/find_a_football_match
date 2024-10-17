@@ -2,3 +2,5 @@
 config.py
 # Ignore the example file
 example.py
+
+.DS_Store
