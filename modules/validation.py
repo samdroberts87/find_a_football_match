@@ -12,9 +12,7 @@ def postcode_validation(max_retries=3):
             if response.status_code == 200:
                 data = response.json()
                 if data["status"] == 200:
-                    termcolor.cprint(
-                        f"Your postcode has been validated", "green"
-                    )
+                    termcolor.cprint(f"Your postcode has been validated", "green")
                     return postcode  # Return valid postcode
                 else:
                     print("Invalid postcode. Please try again.")
@@ -26,6 +24,6 @@ def postcode_validation(max_retries=3):
         except EOFError:
             print("\nInput interrupted. Exiting...")
             return None
-        
+
         retries += 1
     return None  # Return None after max retries

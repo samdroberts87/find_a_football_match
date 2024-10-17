@@ -57,9 +57,7 @@ def main():
             time.sleep(0.5)
             url = f"https://www.google.com/maps/dir/{postcode}/{premier_league_teams[i][0]}"
             termcolor.cprint(f"{i} are at home", "green", attrs=["bold"])
-            print(
-                f"Buy tickets: {premier_league_teams[i][1]}"
-            )
+            print(f"Buy tickets: {premier_league_teams[i][1]}")
             print(f"Get there: {url}")
 
 

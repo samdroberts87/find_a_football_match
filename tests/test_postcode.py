@@ -55,9 +55,10 @@ mock_response_json = """
 """
 
 
-
 def test_invalid_postcode():
-    with patch("requests.get") as mock_get, patch("builtins.input", return_value="INVALIDCODE"):
+    with patch("requests.get") as mock_get, patch(
+        "builtins.input", return_value="INVALIDCODE"
+    ):
         mock_get.return_value.status_code = 404
         mock_get.return_value.json.return_value = {
             "status": 404,
@@ -67,21 +68,26 @@ def test_invalid_postcode():
         assert result is None  # Now expects None on failure
 
 
-
 def test_api_server_error():
-    with patch("requests.get") as mock_get, patch("builtins.input", return_value="BD8 7DY"):
+    with patch("requests.get") as mock_get, patch(
+        "builtins.input", return_value="BD8 7DY"
+    ):
         mock_get.return_value.status_code = 500
         result = postcode_validation()
         assert result is None  # Now expects None on failure
 
 
 def test_postcode_validation_request_exception():
-    with patch("requests.get", side_effect=requests.RequestException("Network error")), patch("builtins.input", return_value="BD8 7DY"):
+    with patch(
+        "requests.get", side_effect=requests.RequestException("Network error")
+    ), patch("builtins.input", return_value="BD8 7DY"):
         result = postcode_validation()
         assert result is None  # Now expects None on failure
 
 
 def test_postcode_validation_timeout():
-    with patch("requests.get", side_effect=requests.Timeout), patch("builtins.input", return_value="BD8 7DY"):
+    with patch("requests.get", side_effect=requests.Timeout), patch(
+        "builtins.input", return_value="BD8 7DY"
+    ):
         result = postcode_validation()
         assert result is None  # Now expects None on failure
