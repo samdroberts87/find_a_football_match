@@ -1,5 +1,5 @@
 # Find a football match
-![termial output](fafm.png)
+![termial output](media/fafm.png)
 
 
 # Application will prompt user in CLI for input for the following things:
@@ -13,4 +13,4 @@
 - Print official website for team in order to check ticket availability
 
 
-![tests passing](tests_passed.png)
+![tests passing](media/tests_passed.png)
