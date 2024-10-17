@@ -13,7 +13,7 @@ def postcode_validation(max_retries=3):
                 data = response.json()
                 if data["status"] == 200:
                     termcolor.cprint(
-                        f"Your postcode has been validated and set as {postcode}", "green"
+                        f"Your postcode has been validated", "green"
                     )
                     return postcode  # Return valid postcode
                 else:

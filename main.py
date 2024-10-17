@@ -15,7 +15,7 @@ def main():
 
     postcode = postcode_validation()
     if postcode:
-        termcolor.cprint(f"Postcode {postcode} is now set. Proceeding...", "green")
+        termcolor.cprint(f"{postcode} is now set. Proceeding...", "green")
     else:
         print("Exiting program due to an error or user interruption.")
 
