@@ -18,6 +18,9 @@ jobs:
       matrix:
         python-version: ["3.9", "3.10", "3.11"]
 
+    env:
+      PYTHONPATH: ${{ github.workspace }}/find_a_football_match  # Set PYTHONPATH for the entire job
+
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python ${{ matrix.python-version }}
@@ -35,15 +38,12 @@ jobs:
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Set PYTHONPATH
+    - name: List directory contents
       run: |
-        echo "PYTHONPATH is currently: $PYTHONPATH"
-        export PYTHONPATH=$PYTHONPATH:${{ github.workspace }}/find_a_football_match
-        echo "PYTHONPATH is now: $PYTHONPATH"
+        echo "Current directory structure:"
+        ls -R ${{ github.workspace }}
 
     - name: Test with pytest
       run: |
-        export PYTHONPATH=$PYTHONPATH:${{ github.workspace }}/find_a_football_match
+        echo "PYTHONPATH is now: $PYTHONPATH"
         pytest
-
-
