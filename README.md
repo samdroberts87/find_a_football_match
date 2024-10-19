@@ -12,7 +12,7 @@
 - Print Google maps link to see how to get to each match from their postcode
 - Print official website for team in order to check ticket availability
 
-# This repository also utilizes github actions to package (test and lint in 3 python versions) and perform code QL analysis
+# This repository also utilizes github actions to package (test and lint in 3 python versions) and perform code QL analysis on push or PR to main
 
 
 ![tests passing](media/tests_passed.png)
