@@ -1,0 +1,3 @@
+import os
+
+SPORT_HIGHLIGHTS_API_KEY = os.getenv('SPORT_HIGHLIGHTS_API_KEY')

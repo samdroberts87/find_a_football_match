@@ -11,15 +11,13 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         python-version: ["3.9", "3.10", "3.11"]
-
-    # env:
-    #   PYTHONPATH: ${{ github.workspace }}/modules  # Correct PYTHONPATH to point to modules
+    env:
+      SPORT_HIGHLIGHTS_API_KEY: ${{ secrets.SPORT_HIGHLIGHTS_API_KEY }}  # Set your secret here
 
     steps:
     - uses: actions/checkout@v4
@@ -40,7 +38,6 @@ jobs:
       run: |
         echo "Current directory structure:"
         ls -R ${{ github.workspace }}
-
     - name: Test with pytest
       run: |
         PYTHONPATH=. pytest tests/ -p no:warnings -v
