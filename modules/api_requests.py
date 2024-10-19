@@ -1,5 +1,5 @@
 import requests
-from modules.config2 import SPORT_HIGHLIGHTS_API_KEY
+from modules.config import SPORT_HIGHLIGHTS_API_KEY
 
 
 def get_fixtures(date_of_match):
