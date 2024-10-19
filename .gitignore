@@ -1,7 +1,2 @@
-# Ignore the config file that contains sensitive API keys
-config.py
-# Ignore the example file
-example.py
-
 .DS_Store
 venv/
