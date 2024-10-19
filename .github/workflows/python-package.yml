@@ -18,8 +18,8 @@ jobs:
       matrix:
         python-version: ["3.9", "3.10", "3.11"]
 
-    env:
-      PYTHONPATH: ${{ github.workspace }}/modules  # Correct PYTHONPATH to point to modules
+    # env:
+    #   PYTHONPATH: ${{ github.workspace }}/modules  # Correct PYTHONPATH to point to modules
 
     steps:
     - uses: actions/checkout@v4
@@ -43,5 +43,4 @@ jobs:
 
     - name: Test with pytest
       run: |
-        echo "PYTHONPATH is now: $PYTHONPATH"
-        pytest
+        PYTHONPATH=. pytest tests/ -p no:warnings -v
