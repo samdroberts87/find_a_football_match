@@ -19,7 +19,7 @@ jobs:
         python-version: ["3.9", "3.10", "3.11"]
 
     env:
-      PYTHONPATH: ${{ github.workspace }}/find_a_football_match/modules  # Correct PYTHONPATH to point to modules
+      PYTHONPATH: ${{ github.workspace }}/modules  # Correct PYTHONPATH to point to modules
 
     steps:
     - uses: actions/checkout@v4
