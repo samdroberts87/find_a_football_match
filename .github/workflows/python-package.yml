@@ -43,4 +43,4 @@ jobs:
 
     - name: Test with pytest
       run: |
-        PYTHONPATH=/modules pytest tests/ -p no:warnings -v
+        PYTHONPATH=. pytest tests/ -p no:warnings -v
