@@ -4,10 +4,10 @@
 name: Python package
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_run:
+    workflows: ["CodeQL Advanced"] # Name of the first workflow
+    types:
+      - completed
 
 jobs:
   build:

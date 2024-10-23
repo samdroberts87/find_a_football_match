@@ -1,10 +1,11 @@
 name: Docker Image CI
 
+
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  workflow_run:
+    workflows: ["Python package"] # Name of the first workflow
+    types:
+      - completed
 
 env:
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}  # Your Docker Hub username secret
