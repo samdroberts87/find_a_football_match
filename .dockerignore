@@ -1,0 +1,12 @@
+# Ignore Python cache
+__pycache__/
+*.pyc
+.pytest_cache/
+.github/
+tests/
+README.md
+.git/
+.gitignore
+venv/
+.DS_Store
+*.log
