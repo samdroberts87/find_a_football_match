@@ -28,8 +28,8 @@ jobs:
 
       # Build the Docker image
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag ${{ env.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:$(date +%s)
+        run: docker build . --file Dockerfile --tag ${{ env.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
 
       # Push the Docker image to Docker Hub
       - name: Push the Docker image
-        run: docker push ${{ env.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:$(date +%s)
+        run: docker push ${{ env.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
