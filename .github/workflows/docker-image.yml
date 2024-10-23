@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 env:
-  DOCKERHUB_USERNAME: samdroberts  # Replace with your Docker Hub username
+  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}  # Your Docker Hub username secret
   IMAGE_NAME: football  # Name of your Docker Hub image
 
 jobs:
@@ -23,8 +23,8 @@ jobs:
       - name: Log into Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}  # You should store your Docker Hub username in GitHub Secrets
-          password: ${{ secrets.DOCKERHUB_TOKEN }}  # You should store your Docker Hub access token in GitHub Secrets
+          username: ${{ env.DOCKERHUB_USERNAME }}  # Use the username from secrets
+          password: ${{ secrets.DOCKERHUB_TOKEN }}  # Use the access token from secrets
 
       # Build the Docker image
       - name: Build the Docker image
