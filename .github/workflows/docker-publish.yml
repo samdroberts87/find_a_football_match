@@ -60,7 +60,7 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          build-args:
+          build-args:  # Correctly formatted build-args section
             SPORT_HIGHLIGHTS_API_KEY: ${{ secrets.SPORT_HIGHLIGHTS_API_KEY }}
 
       - name: Sign the published Docker image
