@@ -4,7 +4,9 @@ import sys
 
 def convert_date_format():
     time.sleep(1)
-    print("Enter the date you wish to see a match")
+    print("Enter the date you wish to see a match.") 
+    time.sleep(0.5)
+    print("Cannot be more that 5 weeks in the future.")
     while True:
         time.sleep(1)
         date = input("Date format must be DD/MM/YYYY: ")
