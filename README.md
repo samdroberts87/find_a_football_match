@@ -15,11 +15,18 @@
 - on success of above, package (test and lint in 3 python versions)
 - on success of qbove, build and push docker image to dockerHub
 
+
 ## To run the docker image you will need a sports API key which can be obtained for free from the below link
 - [Sports API](https://rapidapi.com/highlightly-api-highlightly-api-default/api/sport-highlights-api)
 - to run the container simply run
 ```
 docker run -it --name football -e SPORT_HIGHLIGHTS_API_KEY='<your api key>' samdroberts/football
 ```
+
+## To run python project locally you will need to set an environmental variable for the afore mentioned API key like below
+```
+export SPORT_HIGHLIGHTS_API_KEY='<your api key>'
+```
+
 ![termial output](media/fafm.png)
 ![tests passing](media/tests_passed.png)
