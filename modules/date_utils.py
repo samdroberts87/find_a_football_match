@@ -1,4 +1,5 @@
 import time
+import sys
 
 
 def convert_date_format():
@@ -22,3 +23,4 @@ def convert_date_format():
             continue
         except EOFError:
             print("\nInput interrupted. Exiting...")
+            sys.exit(0)

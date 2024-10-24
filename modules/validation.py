@@ -1,5 +1,6 @@
 import requests
 import termcolor
+import sys
 
 
 def postcode_validation(max_retries=3):
@@ -23,6 +24,7 @@ def postcode_validation(max_retries=3):
             return None
         except EOFError:
             print("\nInput interrupted. Exiting...")
+            sys.exit(0)
             return None
 
         retries += 1

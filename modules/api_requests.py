@@ -1,4 +1,5 @@
 import requests
+import sys
 from modules.config import SPORT_HIGHLIGHTS_API_KEY
 
 
@@ -29,3 +30,4 @@ def get_fixtures(date_of_match):
         return []
     except EOFError:
         print("\nInput interrupted. Exiting...")
+        sys.exit(0)

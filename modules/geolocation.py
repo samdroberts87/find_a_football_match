@@ -1,4 +1,5 @@
 import time
+import sys
 from geopy.geocoders import Nominatim
 from geopy.distance import great_circle
 
@@ -50,3 +51,4 @@ def get_coordinates(postcode):
             return None
     except EOFError:
         print("\nInput interrupted. Exiting...")
+        # sys.exit(0)
