@@ -21,6 +21,7 @@ def main():
                 termcolor.cprint(f"{postcode} is now set. Proceeding...", "green")
             else:
                 print("Exiting program due to an error or user interruption.")
+                sys.exit(0)  # Exit the program
 
             date_of_match = convert_date_format()
             time.sleep(0.5)
