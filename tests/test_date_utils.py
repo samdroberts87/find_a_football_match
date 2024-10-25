@@ -3,43 +3,38 @@ from unittest.mock import patch
 from modules.date_utils import convert_date_format
 
 
-def test_convert_date_format_out_of_range():
+# Test for a valid date within range
+def test_convert_date_format_valid_date():
+    with patch("builtins.input", side_effect=["12/11/2024"]):
+        result = convert_date_format()
+        assert result == "2024-11-12"
+
+
+# Test for an invalid day in a 30-day month
+def test_convert_date_format_invalid_day():
     with patch(
-        "builtins.input", side_effect=["32/12/2024", "15/13/2024", "15/10/2024"]
+        "builtins.input", side_effect=["31/04/2024", "30/04/2024", "12/11/2024"]
     ):
         result = convert_date_format()
-        assert result == "2024-10-15"
+        assert result == "2024-11-12"
 
 
-def test_convert_date_format_past_year():
-    with patch("builtins.input", side_effect=["12/10/2023", "12/10/2024"]):
+# Test for a date more than 36 days in the future
+def test_convert_date_format_future_date():
+    with patch("builtins.input", side_effect=["15/12/2024", "12/11/2024"]):
         result = convert_date_format()
-        assert result == "2024-10-12"
+        assert result == "2024-11-12"
 
 
-def test_convert_date_format_valid():
-    with patch("builtins.input", side_effect=["12/10/2024"]):
+# Test for an invalid format (no slashes)
+def test_convert_date_format_invalid_format():
+    with patch("builtins.input", side_effect=["12112024", "12/11/2024"]):
         result = convert_date_format()
-        assert result == "2024-10-12"
+        assert result == "2024-11-12"
 
 
-def test_convert_date_format_invalid_then_valid():
-    with patch(
-        "builtins.input", side_effect=["12/34/2024", "32/10/2024", "15/10/2024"]
-    ):
+# Test for a past date
+def test_convert_date_format_past_date():
+    with patch("builtins.input", side_effect=["10/10/2023", "12/11/2024"]):
         result = convert_date_format()
-        assert result == "2024-10-15"
-
-
-def test_convert_date_format_multiple_invalid():
-    with patch("builtins.input", side_effect=["abcd", "1234", "12/10/2024"]):
-        result = convert_date_format()
-        assert result == "2024-10-12"
-
-
-def test_convert_date_format_multiple_invalid():
-    with patch(
-        "builtins.input", side_effect=["29/02/2025", "31/09/2024", "12/10/2024"]
-    ):
-        result = convert_date_format()
-        assert result == "2024-10-12"
+        assert result == "2024-11-12"
