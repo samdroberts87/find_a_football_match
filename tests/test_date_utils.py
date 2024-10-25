@@ -35,3 +35,11 @@ def test_convert_date_format_multiple_invalid():
     with patch("builtins.input", side_effect=["abcd", "1234", "12/10/2024"]):
         result = convert_date_format()
         assert result == "2024-10-12"
+
+
+def test_convert_date_format_multiple_invalid():
+    with patch(
+        "builtins.input", side_effect=["29/02/2025", "31/09/2024", "12/10/2024"]
+    ):
+        result = convert_date_format()
+        assert result == "2024-10-12"
