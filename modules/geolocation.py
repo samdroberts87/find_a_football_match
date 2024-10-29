@@ -2,6 +2,7 @@ import time
 import sys
 from geopy.geocoders import Nominatim
 from geopy.distance import great_circle
+import termcolor
 
 geolocator = Nominatim(user_agent="postcode_distance_checker")
 

@@ -1,6 +1,7 @@
 import requests
 import sys
 from modules.config import SPORT_HIGHLIGHTS_API_KEY
+import termcolor
 
 
 def get_fixtures(date_of_match):

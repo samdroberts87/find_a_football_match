@@ -1,6 +1,7 @@
 import time
 import sys
 from datetime import datetime, timedelta
+import termcolor
 
 
 def convert_date_format():
