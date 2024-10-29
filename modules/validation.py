@@ -26,6 +26,8 @@ def postcode_validation(max_retries=3):
             print("\nInput interrupted. Exiting...")
             sys.exit(0)
             return None
-
+        except KeyboardInterrupt:
+            termcolor.cprint("EXITING DUE TO USER INTERRUPTION", "red")
+            sys.exit(0)   
         retries += 1
     return None  # Return None after max retries

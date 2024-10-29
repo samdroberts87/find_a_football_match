@@ -52,3 +52,6 @@ def get_coordinates(postcode):
     except EOFError:
         print("\nInput interrupted. Exiting...")
         # sys.exit(0)
+    except KeyboardInterrupt:
+        termcolor.cprint("EXITING DUE TO USER INTERRUPTION", "red")
+        sys.exit(0)   

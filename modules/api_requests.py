@@ -31,3 +31,6 @@ def get_fixtures(date_of_match):
     except EOFError:
         print("\nInput interrupted. Exiting...")
         sys.exit(0)
+    except KeyboardInterrupt:
+        termcolor.cprint("EXITING DUE TO USER INTERRUPTION", "red")
+        sys.exit(0)   
