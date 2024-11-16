@@ -44,9 +44,6 @@ def convert_date_format():
                 print("Date format incorrect.")
         except ValueError:
             continue
-        except EOFError:
-            print("\nInput interrupted. Exiting...")
-            sys.exit(0)
-        except KeyboardInterrupt:
-            termcolor.cprint("EXITING DUE TO USER INTERRUPTION", "red")
+        except (EOFError, KeyboardInterrupt):
+            termcolor.cprint("\nUser cancelled program. Exiting...", "red")
             sys.exit(0)
