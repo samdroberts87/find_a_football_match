@@ -83,12 +83,9 @@ def main():
                 termcolor.cprint("Okay, Exiting", "red", attrs=["bold"])
                 time.sleep(0.5)
                 sys.exit("thank you for using the app")
-    except EOFError:
-        termcolor.cprint("EXITING DUE TO USER INTERRUPTION", "red")
-        sys.exit(0)
-    except KeyboardInterrupt:
-        termcolor.cprint("EXITING DUE TO USER INTERRUPTION", "red")
-        sys.exit(0)       
+    except (EOFError, KeyboardInterrupt):
+        termcolor.cprint("\nUser cancelled program. Exiting...", "red")
+        sys.exit(0)      
 
 
 if __name__ == "__main__":

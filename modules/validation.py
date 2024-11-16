@@ -22,12 +22,8 @@ def postcode_validation(max_retries=3):
         except requests.RequestException as e:
             print(f"Error occurred: {e}")
             return None
-        except EOFError:
-            print("\nInput interrupted. Exiting...")
-            sys.exit(0)
-            return None
-        except KeyboardInterrupt:
-            termcolor.cprint("EXITING DUE TO USER INTERRUPTION", "red")
-            sys.exit(0)   
+        except (EOFError, KeyboardInterrupt):
+            termcolor.cprint("\nUser cancelled program. Exiting...", "red")
+            sys.exit(0) 
         retries += 1
     return None  # Return None after max retries

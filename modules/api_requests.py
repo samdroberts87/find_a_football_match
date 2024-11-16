@@ -29,9 +29,6 @@ def get_fixtures(date_of_match):
     except requests.RequestException as e:
         print(f"Request error: {e}")
         return []
-    except EOFError:
-        print("\nInput interrupted. Exiting...")
+    except (EOFError, KeyboardInterrupt):
+        termcolor.cprint("\nUser cancelled program. Exiting...", "red")
         sys.exit(0)
-    except KeyboardInterrupt:
-        termcolor.cprint("EXITING DUE TO USER INTERRUPTION", "red")
-        sys.exit(0)   

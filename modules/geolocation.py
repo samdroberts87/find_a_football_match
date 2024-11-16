@@ -19,8 +19,9 @@ def get_travel_miles():
             return miles
         except ValueError:
             print("Invalid input. Please enter a number.")
-        except EOFError:
-            print("\nInput interrupted. Exiting...")
+        except (EOFError, KeyboardInterrupt):
+            termcolor.cprint("\nUser cancelled program. Exiting...", "red")
+            sys.exit(0)
 
 
 def find_nearby_postcodes(target_postcode, distance_limit_miles, teams):
@@ -38,8 +39,9 @@ def find_nearby_postcodes(target_postcode, distance_limit_miles, teams):
                 if distance <= distance_limit_miles:
                     nearby_teams.append((team, postcode, distance))
         return nearby_teams
-    except EOFError:
-        print("\nInput interrupted. Exiting...")
+    except (EOFError, KeyboardInterrupt):
+        termcolor.cprint("\nUser cancelled program. Exiting...", "red")
+        sys.exit(0)
 
 
 def get_coordinates(postcode):
@@ -50,9 +52,6 @@ def get_coordinates(postcode):
         else:
             print(f"Could not find coordinates for postcode: {postcode}")
             return None
-    except EOFError:
-        print("\nInput interrupted. Exiting...")
-        # sys.exit(0)
-    except KeyboardInterrupt:
-        termcolor.cprint("EXITING DUE TO USER INTERRUPTION", "red")
-        sys.exit(0)   
+    except (EOFError, KeyboardInterrupt):
+        termcolor.cprint("\nUser cancelled program. Exiting...", "red")
+        sys.exit(0)
