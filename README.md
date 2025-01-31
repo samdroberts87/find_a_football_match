@@ -1,4 +1,4 @@
-# Find a football match
+# Find a football match CLI application
 
 # Application will prompt user in CLI for input for the following things:
 - Their postcode
@@ -27,6 +27,3 @@ docker run -it --name football -e SPORT_HIGHLIGHTS_API_KEY='<your api key>' samd
 ```
 export SPORT_HIGHLIGHTS_API_KEY='<your api key>'
 ```
-
-![termial output](media/fafm.png)
-![tests passing](media/tests_passed.png)
