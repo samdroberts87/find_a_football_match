@@ -15,8 +15,8 @@ premier_league_teams = {
     "Manchester United": ["M160RA", "https://www.manutd.com/tickets"],
     "Everton": ["L44EL", "https://www.evertonfc.com/tickets/latest"],
     "Crystal Palace": ["SE256PU", "https://www.eticketing.co.uk/cpfc/"],
-    "Leeds": ["LS11 0ES", "https://tickets.leedsunited.com/en-gb/categories/home-games"],
-    "Burnley": ["BB10 4BX", "https://tickets.burnleyfootballclub.com/PagesPublic/ProductBrowse/ProductHome.aspx?productsubtype=HOME"],
-    "Sunderland": ["SR5 1SU","eticketing.co.uk/safc"],
+    "Leeds": ["LS110ES", "https://tickets.leedsunited.com/en-gb/categories/home-games"],
+    "Burnley": ["BB104BX", "https://tickets.burnleyfootballclub.com/PagesPublic/ProductBrowse/ProductHome.aspx?productsubtype=HOME"],
+    "Sunderland": ["SR51SU","eticketing.co.uk/safc"],
     "Wolves": ["WV14QR", "https://www.eticketing.co.uk/wolves"],
 }
