@@ -8,7 +8,7 @@ def get_fixtures(date_of_match):
     url = "https://sport-highlights-api.p.rapidapi.com/football/matches"
     querystring = {
         "leagueId": "33973",  # Premier League ID
-        "season": "2024",
+        "season": "2025",
         "date": date_of_match,
     }
 
