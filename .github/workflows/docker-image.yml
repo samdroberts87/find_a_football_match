@@ -2,7 +2,7 @@ name: Docker Build, Scan, and Push
 
 on:
   workflow_run:
-    workflows: ["Python package"] # Triggered after this workflow completes
+    workflows: ["Python Package and Test"] # Triggered after this workflow completes
     types:
       - completed
 
