@@ -3,7 +3,7 @@
 - ![CodeQL](https://github.com/samdroberts87/find_a_football_match/actions/workflows/codeql.yml/badge.svg?branch=main)
 - ![Package & Unit Test](https://github.com/samdroberts87/find_a_football_match/actions/workflows/python-package.yml/badge.svg?branch=main)
 - ![Docker-Image-Build](https://github.com/samdroberts87/find_a_football_match/actions/workflows/docker-image.yml/badge.svg?branch=main)
-- ![Trivy](https://github.com/samdroberts87/find_a_football_match/actions/workflows/trivy.yml/badge.svg?branch=main)
+
 
 # Application will prompt user in CLI for input for the following things:
 - Their postcode
