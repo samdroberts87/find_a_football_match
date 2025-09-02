@@ -1,36 +1,59 @@
-name: Docker Image Build and Push
-
+name: Docker Build, Scan, and Push
 
 on:
   workflow_run:
-    workflows: ["Python package"] # Name of the first workflow
+    workflows: ["Python package"] # Triggered after this workflow completes
     types:
       - completed
 
 env:
-  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}  # Your Docker Hub username secret
-  IMAGE_NAME: football  # Name of your Docker Hub image
+  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+  IMAGE_NAME: football
 
 jobs:
-  build:
+  build-and-scan:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
 
     steps:
       # Checkout the repository
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       # Log into Docker Hub
       - name: Log into Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ env.DOCKERHUB_USERNAME }}  # Use the username from secrets
-          password: ${{ secrets.DOCKERHUB_TOKEN }}  # Use the access token from secrets
+          username: ${{ env.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      # Build the Docker image
-      - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag ${{ env.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+      # Build Docker image with run number as tag
+      - name: Build Docker image
+        run: |
+          docker build . \
+            --file Dockerfile \
+            --tag ${{ env.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}
 
-      # Push the Docker image to Docker Hub
-      - name: Push the Docker image
-        run: docker push ${{ env.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:latest
+      # Run Trivy vulnerability scanner
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@7b7aa264d83dc58691451798b4d117d53d21edfe
+        with:
+          image-ref: '${{ env.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+          severity: 'CRITICAL,HIGH'
+
+      # Upload Trivy scan results to GitHub Security tab
+      - name: Upload Trivy scan results
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+      # Push Docker image only if scan passes
+      - name: Push Docker image
+        if: success()
+        run: docker push ${{ env.DOCKERHUB_USERNAME }}/${{ env.IMAGE_NAME }}:${{ github.run_number }}
