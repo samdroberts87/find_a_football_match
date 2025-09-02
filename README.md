@@ -1,4 +1,4 @@
-# Find a football match CLI application
+# Find a football match CLI application (updated for 2025 season)
 
 # Application will prompt user in CLI for input for the following things:
 - Their postcode
